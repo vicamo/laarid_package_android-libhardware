@@ -1,24 +1,28 @@
 # Copyright 2006 The Android Open Source Project
 
-# Setting LOCAL_PATH will mess up all-subdir-makefiles, so do it beforehand.
-SUBDIR_MAKEFILES := $(call all-named-subdir-makefiles,modules tests)
+# libandroid-hardware.la
+# ----------------------
+lib_LTLIBRARIES += \
+	%reldir%/libandroid-hardware.la
 
-LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
+%canon_reldir%_libandroid_hardware_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	$(CUTILS_CFLAGS)
+%canon_reldir%_libandroid_hardware_la_LDFLAGS = \
+	$(AM_LDFLAGS) \
+	$(libtool_opts)
+%canon_reldir%_libandroid_hardware_la_LIBADD = \
+	$(LIBADD_DLOPEN) \
+	$(BIONIC_LIBS) \
+	$(LOG_LIBS) \
+	$(CUTILS_LIBS)
+%canon_reldir%_libandroid_hardware_la_SOURCES = \
+	%reldir%/hardware.c
 
-LOCAL_SHARED_LIBRARIES := libcutils liblog
+if WITH_QEMU
+%canon_reldir%_libandroid_hardware_la_CPPFLAGS += \
+	-DQEMU_HARDWARE
+endif
 
-LOCAL_INCLUDES += $(LOCAL_PATH)
-
-LOCAL_CFLAGS  += -DQEMU_HARDWARE
-QEMU_HARDWARE := true
-
-LOCAL_SHARED_LIBRARIES += libdl
-
-LOCAL_SRC_FILES += hardware.c
-
-LOCAL_MODULE:= libhardware
-
-include $(BUILD_SHARED_LIBRARY)
-
-include $(SUBDIR_MAKEFILES)
+pkgconfig_DATA += \
+	android-hardware-$(LAARID_API_VERSION).pc
