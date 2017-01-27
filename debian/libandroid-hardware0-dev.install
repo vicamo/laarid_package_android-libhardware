@@ -1,0 +1,4 @@
+usr/include/android/hardware-*/hardware/*
+usr/lib/*/libandroid-hardware.a
+usr/lib/*/libandroid-hardware.so
+usr/lib/*/pkgconfig/android-hardware-0.0.pc
