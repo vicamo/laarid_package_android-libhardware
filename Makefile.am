@@ -48,13 +48,18 @@ libtool_opts = \
 	-export-dynamic \
 	-rpath $(libdir)
 
+lib_hwdir = $(libdir)/hw
+
 # Various build targets
 # ---------------------
 lib_LTLIBRARIES =
+lib_hw_LTLIBRARIES =
 pkgconfig_DATA =
 
 include $(srcdir)/include/hardware/Makefile.inc
 include $(srcdir)/Android.mk
+
+include $(srcdir)/modules/vehicle/Android.mk
 
 # PKG-CONFIG data files
 # ---------------------

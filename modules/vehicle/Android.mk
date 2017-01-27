@@ -12,17 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := $(call my-dir)
+lib_hw_LTLIBRARIES += \
+    %reldir%/vehicle.default.la
 
-include $(CLEAR_VARS)
-
-LOCAL_MODULE := vehicle.default
-
-LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_C_INCLUDES := hardware/libhardware
-LOCAL_SRC_FILES := vehicle.c timeUtil.cpp
-LOCAL_SHARED_LIBRARIES := liblog libcutils libutils
-LOCAL_MODULE_TAGS := optional
-
-include $(BUILD_SHARED_LIBRARY)
-
+%canon_reldir%_vehicle_default_la_SOURCES = \
+    %reldir%/vehicle.c \
+    %reldir%/timeUtil.cpp
+%canon_reldir%_vehicle_default_la_CPPFLAGS = \
+    $(AM_CPPFLAGS) \
+    $(LOG_CFLAGS) \
+    $(CUTILS_CFLAGS) \
+    $(UTILS_CFLAGS)
+%canon_reldir%_vehicle_default_la_CFLAGS = \
+    $(AM_CFLAGS) \
+    -Wno-unused-function
+%canon_reldir%_vehicle_default_la_LIBADD = \
+    $(LOG_LIBS) \
+    $(CUTILS_LIBS) \
+    $(UTILS_LIBS)
+%canon_reldir%_vehicle_default_la_LDFLAGS = \
+    $(AM_LDFLAGS) \
+    -module -avoid-version -shared

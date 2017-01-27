@@ -282,7 +282,7 @@ static int vdev_set(vehicle_hw_device_t* device UNUSED, const vehicle_prop_value
             ALOGD("Value type: INT32\nValue: %d\n", data->value.int32_value);
             break;
         case VEHICLE_VALUE_TYPE_INT64:
-            ALOGD("Value type: INT64\nValue: %lld\n", data->value.int64_value);
+            ALOGD("Value type: INT64\nValue: %" PRId64 "\n", data->value.int64_value);
             break;
         case VEHICLE_VALUE_TYPE_BOOLEAN:
             ALOGD("Value type: BOOLEAN\nValue: %d\n", data->value.boolean_value);
@@ -479,8 +479,7 @@ static int vdev_subscribe(vehicle_hw_device_t* device, int32_t prop, float sampl
         pthread_mutex_unlock(&lock_);
         return 0;
     }
-    int ret_code = pthread_create(
-                                  &sub->thread, NULL, (void *(*)(void*))fake_event_thread, sub);
+    pthread_create(&sub->thread, NULL, (void *(*)(void*))fake_event_thread, sub);
     print_subscribe_info(impl);
     pthread_mutex_unlock(&lock_);
     return 0;
