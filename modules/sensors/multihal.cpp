@@ -34,10 +34,14 @@
 
 #include <stdio.h>
 #include <dlfcn.h>
-#include <SensorEventQueue.h>
+#include "SensorEventQueue.h"
 
 #include <limits.h>
 #include <stdlib.h>
+
+#ifndef __unused
+#define __unused __attribute__((__unused__))
+#endif
 
 static const char* CONFIG_FILENAME = "/system/etc/sensors/hals.conf";
 static const int MAX_CONF_LINE_LENGTH = 1024;
@@ -404,7 +408,7 @@ int sensors_poll_context_t::close() {
     for (std::vector<hw_device_t*>::iterator it = this->sub_hw_devices.begin();
             it != this->sub_hw_devices.end(); it++) {
         hw_device_t* dev = *it;
-        int retval = dev->close(dev);
+        int retval __unused = dev->close(dev);
         ALOGV("retval %d", retval);
     }
     return 0;
@@ -414,7 +418,7 @@ int sensors_poll_context_t::close() {
 static int device__close(struct hw_device_t *dev) {
     sensors_poll_context_t* ctx = (sensors_poll_context_t*) dev;
     if (ctx != NULL) {
-        int retval = ctx->close();
+        int retval __unused = ctx->close();
         delete ctx;
     }
     return 0;
@@ -451,15 +455,6 @@ static int device__flush(struct sensors_poll_device_1 *dev, int handle) {
 
 static int open_sensors(const struct hw_module_t* module, const char* name,
         struct hw_device_t** device);
-
-static bool starts_with(const char* s, const char* prefix) {
-    if (s == NULL || prefix == NULL) {
-        return false;
-    }
-    size_t s_size = strlen(s);
-    size_t prefix_size = strlen(prefix);
-    return s_size >= prefix_size && strncmp(s, prefix, prefix_size) == 0;
-}
 
 /*
  * Adds valid paths from the config file to the vector passed in.

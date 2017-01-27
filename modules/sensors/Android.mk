@@ -14,32 +14,27 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := $(call my-dir)
+lib_hw_LTLIBRARIES += \
+    %reldir%/sensors.default.la
 
-ifeq ($(USE_SENSOR_MULTI_HAL),true)
+%canon_reldir%_sensors_default_la_CPPFLAGS = \
+    $(AM_CPPFLAGS) \
+    $(BIONIC_CFLAGS) \
+    $(LOG_CFLAGS) \
+    $(CUTILS_CFLAGS) \
+    -DLOG_TAG=\"MultiHal\"
 
-include $(CLEAR_VARS)
+%canon_reldir%_sensors_default_la_SOURCES = \
+    %reldir%/multihal.cpp \
+    %reldir%/SensorEventQueue.cpp \
+    %reldir%/SensorEventQueue.h
 
-LOCAL_MODULE := sensors.$(TARGET_DEVICE)
+%canon_reldir%_sensors_default_la_LIBADD = \
+    $(LIBADD_DLOPEN) \
+    $(LOG_LIBS) \
+    $(CUTILS_LIBS) \
+    $(UTILS_LIBS)
 
-LOCAL_MODULE_RELATIVE_PATH := hw
-
-LOCAL_CFLAGS := -DLOG_TAG=\"MultiHal\"
-
-LOCAL_SRC_FILES := \
-    multihal.cpp \
-    SensorEventQueue.cpp \
-
-LOCAL_SHARED_LIBRARIES := \
-    libcutils \
-    libdl \
-    liblog \
-    libutils \
-
-LOCAL_STRIP_MODULE := false
-
-include $(BUILD_SHARED_LIBRARY)
-
-endif # USE_SENSOR_MULTI_HAL
-
-include $(call all-makefiles-under, $(LOCAL_PATH))
+%canon_reldir%_sensors_default_la_LDFLAGS = \
+    $(AM_LDFLAGS) \
+    -module -avoid-version -shared

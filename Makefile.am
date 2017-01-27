@@ -59,6 +59,7 @@ pkgconfig_DATA =
 include $(srcdir)/include/hardware/Makefile.inc
 include $(srcdir)/Android.mk
 
+include $(srcdir)/modules/sensors/Android.mk
 include $(srcdir)/modules/vehicle/Android.mk
 
 # PKG-CONFIG data files
