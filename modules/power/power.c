@@ -20,7 +20,7 @@
 #include <fcntl.h>
 
 #define LOG_TAG "Legacy PowerHAL"
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include <hardware/hardware.h>
 #include <hardware/power.h>

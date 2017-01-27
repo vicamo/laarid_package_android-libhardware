@@ -21,7 +21,7 @@
 #include "TestExtensions.h"
 
 #include <gtest/gtest.h>
-#include <utils/Log.h>
+#include <log/log.h>
 #include <utils/StrongPointer.h>
 #include <common/CameraDeviceBase.h>
 #include <hardware/hardware.h>

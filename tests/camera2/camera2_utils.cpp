@@ -19,7 +19,7 @@
 #define LOG_TAG "Camera2_test_utils"
 #define LOG_NDEBUG 0
 
-#include "utils/Log.h"
+#include "log/log.h"
 #include "camera2_utils.h"
 #include <dlfcn.h>
 

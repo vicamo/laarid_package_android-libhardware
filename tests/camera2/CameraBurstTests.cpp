@@ -19,7 +19,7 @@
 
 #define LOG_TAG "CameraBurstTest"
 //#define LOG_NDEBUG 0
-#include <utils/Log.h>
+#include <log/log.h>
 #include <utils/Timers.h>
 
 #include <cmath>

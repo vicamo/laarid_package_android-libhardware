@@ -39,7 +39,7 @@
 #include <hardware_legacy/power.h>
 #include <linux/input.h>
 
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include "BitUtils.h"
 

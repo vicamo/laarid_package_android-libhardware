@@ -19,7 +19,7 @@
 
 #include "InputDeviceManager.h"
 
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include "InputDevice.h"
 

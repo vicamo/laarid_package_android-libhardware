@@ -18,7 +18,7 @@
 
 #define LOG_TAG "CameraModuleTest"
 #define LOG_NDEBUG 0
-#include <utils/Log.h>
+#include <log/log.h>
 #include <utils/StrongPointer.h>
 #include <common/CameraDeviceBase.h>
 

@@ -31,7 +31,7 @@
 #include <openssl/x509.h>
 
 #define LOG_TAG "keymaster_test"
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include <UniquePtr.h>
 

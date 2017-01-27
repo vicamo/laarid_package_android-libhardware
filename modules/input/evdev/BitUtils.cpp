@@ -19,7 +19,7 @@
 
 #include "BitUtils.h"
 
-#include <utils/Log.h>
+#include <log/log.h>
 
 // Enables debug output for hasKeyInRange
 #define DEBUG_KEY_RANGE 0

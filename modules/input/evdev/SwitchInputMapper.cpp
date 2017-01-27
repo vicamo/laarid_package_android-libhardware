@@ -22,7 +22,7 @@
 #include <inttypes.h>
 #include <linux/input.h>
 #include <hardware/input.h>
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include "InputHost.h"
 #include "InputHub.h"

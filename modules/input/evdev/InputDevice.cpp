@@ -29,7 +29,7 @@
 #include <cstdlib>
 #include <string>
 
-#include <utils/Log.h>
+#include <log/log.h>
 #include <utils/Timers.h>
 
 #include "InputHost.h"

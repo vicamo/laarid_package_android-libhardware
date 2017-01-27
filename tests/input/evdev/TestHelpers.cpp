@@ -26,7 +26,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <utils/Log.h>
+#include <log/log.h>
 
 namespace android {
 

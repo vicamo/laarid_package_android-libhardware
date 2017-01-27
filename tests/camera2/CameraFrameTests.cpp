@@ -18,7 +18,7 @@
 
 #define LOG_TAG "CameraFrameTest"
 //#define LOG_NDEBUG 0
-#include <utils/Log.h>
+#include <log/log.h>
 
 #include "hardware/hardware.h"
 #include "hardware/camera2.h"
