@@ -59,8 +59,28 @@ pkgconfig_DATA =
 include $(srcdir)/include/hardware/Makefile.inc
 include $(srcdir)/Android.mk
 
+include $(srcdir)/modules/audio/Android.mk
+include $(srcdir)/modules/audio_remote_submix/Android.mk # libnbaio, libmedia_helper
+include $(srcdir)/modules/camera/Android.mk # libcamera_metadata
+include $(srcdir)/modules/consumerir/Android.mk
+include $(srcdir)/modules/fingerprint/Android.mk
+include $(srcdir)/modules/gralloc/Android.mk
+include $(srcdir)/modules/hwcomposer/Android.mk # libEGL
+include $(srcdir)/modules/input/Android.mk # libhardware_legacy
+include $(srcdir)/modules/local_time/Android.mk
+include $(srcdir)/modules/nfc/Android.mk
+include $(srcdir)/modules/nfc-nci/Android.mk
+include $(srcdir)/modules/power/Android.mk
+include $(srcdir)/modules/radio/Android.mk # libradio_metadata
 include $(srcdir)/modules/sensors/Android.mk
+include $(srcdir)/modules/soundtrigger/Android.mk
+include $(srcdir)/modules/thermal/Android.mk
+include $(srcdir)/modules/tv_input/Android.mk
+include $(srcdir)/modules/usbaudio/Android.mk # libtinyalsa libaudioutils libalsautils
+include $(srcdir)/modules/usbcamera/Android.mk # libcamera_metadata
 include $(srcdir)/modules/vehicle/Android.mk
+include $(srcdir)/modules/vibrator/Android.mk
+include $(srcdir)/modules/vr/Android.mk
 
 # PKG-CONFIG data files
 # ---------------------
