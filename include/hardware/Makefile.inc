@@ -1,4 +1,4 @@
-hardwareincdir = $(includedir)/android/hardware-$(HARDWARE_API_VERSION)/hardware
+hardwareincdir = $(includedir)/android/hardware-$(LAARID_API_VERSION)/hardware
 hardwareinc_HEADERS = \
     %reldir%/activity_recognition.h \
     %reldir%/audio_alsaops.h \
