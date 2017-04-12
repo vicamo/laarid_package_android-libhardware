@@ -16,6 +16,7 @@
 
 #include <hardware/hardware.h>
 
+#include <cutils/memory.h>
 #include <cutils/properties.h>
 
 #include <dlfcn.h>
