@@ -1,0 +1,3 @@
+libandroid-hardware.so.0 libandroid-hardware0 #MINVER#
+ hw_get_module@Base 0.0.1+b1
+ hw_get_module_by_class@Base 0.0.1+b1
