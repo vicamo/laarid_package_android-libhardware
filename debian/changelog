@@ -1,3 +1,15 @@
+android-libhardware (0.0.2) testing; urgency=low
+
+  * ci: deploy on release branch builds instead
+  * debian: bump prerequisite pkg-config version
+  * debian: add symbols file
+  * fix build failure after a-s-c v0.0.18
+  * link libdl explicitly
+  * remove redundant libandroid-bionic.so from ld libs
+  * correct hal module search path
+
+ -- You-Sheng Yang <vicamo@gmail.com>  Sat, 17 Jan 2017 01:37:15 +0800
+
 android-libhardware (0.0.1+b1) testing; urgency=low
 
   * correct header installation path
