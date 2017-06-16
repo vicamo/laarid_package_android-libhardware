@@ -29,15 +29,21 @@
 #include <log/log.h>
 
 /** Base path of the hal modules */
+static const char *hal_library_paths[] = {
+#if !defined(HAL_LIBRARY_PATHS)
 #if defined(__LP64__)
-#define HAL_LIBRARY_PATH1 "/system/lib64/hw"
-#define HAL_LIBRARY_PATH2 "/vendor/lib64/hw"
-#define HAL_LIBRARY_PATH3 "/odm/lib64/hw"
+    "/system/lib64/hw",
+    "/vendor/lib64/hw",
+    "/odm/lib64/hw",
 #else
-#define HAL_LIBRARY_PATH1 "/system/lib/hw"
-#define HAL_LIBRARY_PATH2 "/vendor/lib/hw"
-#define HAL_LIBRARY_PATH3 "/odm/lib/hw"
+    "/system/lib/hw",
+    "/vendor/lib/hw",
+    "/odm/lib/hw",
 #endif
+#else
+    HAL_LIBRARY_PATHS
+#endif
+};
 
 /**
  * There are a set of variant filename for modules. The form of the filename
@@ -132,20 +138,13 @@ static int load(const char *id,
 static int hw_module_exists(char *path, size_t path_len, const char *name,
                             const char *subname)
 {
-    snprintf(path, path_len, "%s/%s.%s.so",
-             HAL_LIBRARY_PATH3, name, subname);
-    if (access(path, R_OK) == 0)
-        return 0;
-
-    snprintf(path, path_len, "%s/%s.%s.so",
-             HAL_LIBRARY_PATH2, name, subname);
-    if (access(path, R_OK) == 0)
-        return 0;
-
-    snprintf(path, path_len, "%s/%s.%s.so",
-             HAL_LIBRARY_PATH1, name, subname);
-    if (access(path, R_OK) == 0)
-        return 0;
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+    for (size_t i = 0; i < ARRAY_SIZE(hal_library_paths); i++) {
+        snprintf(path, path_len, "%s/%s.%s.so",
+                 hal_library_paths[i], name, subname);
+        if (access(path, R_OK) == 0)
+            return 0;
+    }
 
     return -ENOENT;
 }

@@ -7,7 +7,8 @@ lib_LTLIBRARIES += \
 
 %canon_reldir%_libandroid_hardware_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
-	$(CUTILS_CFLAGS)
+	$(CUTILS_CFLAGS) \
+	-DHAL_LIBRARY_PATHS=\"$(libdir)/hw\",\"/opt/lib/$(host_cpu)-$(host_os)/hw\"
 %canon_reldir%_libandroid_hardware_la_LDFLAGS = \
 	$(AM_LDFLAGS) \
 	$(libtool_opts)
