@@ -14,7 +14,6 @@ lib_LTLIBRARIES += \
 	$(libtool_opts)
 %canon_reldir%_libandroid_hardware_la_LIBADD = \
 	$(LIBADD_DLOPEN) \
-	$(BIONIC_LIBS) \
 	$(LOG_LIBS) \
 	$(CUTILS_LIBS)
 %canon_reldir%_libandroid_hardware_la_SOURCES = \
