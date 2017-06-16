@@ -81,6 +81,8 @@ m4_define([lt_age], [lt_current])
 LT_VERSION_INFO="lt_current:lt_revision:lt_age"
 AC_SUBST(LT_VERSION_INFO)
 
+LT_LIB_DLLOAD
+
 LT_OUTPUT
 
 dnl Dependencies

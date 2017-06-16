@@ -5,6 +5,7 @@ Build-Depends:
  debhelper (>= 9),
  dh-autoreconf,
  autoconf-archive,
+ libltdl-dev,
  pkg-config (>= 0.24),
  libandroid-bionic0-dev (>= 0.1.4),
  libandroid-cutils0-dev (>= 0.0.12),
