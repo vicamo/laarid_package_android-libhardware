@@ -18,27 +18,28 @@ env:
   global:
   - DOCKER_EXEC_ROOT="sudo docker exec --interactive --tty --user root test_container"
   - DOCKER_EXEC="sudo docker exec --interactive --tty test_container"
-  - DOCKER_EXEC_NOTTY="sudo docker exec test_container"
   - BINTRAY_USER=laarid
   - BINTRAY_REPO=main
   - BINTRAY_COMPONENT=main
   - BINTRAY_DESC="Android hardware library"
 
-branches:
-  only:
-  - master
-  - release
+addons:
+  apt:
+    packages:
+    - dpkg-dev
 
 before_install:
 - docker run --rm --privileged vicamo/binfmt-qemu:latest
 - cat /proc/sys/fs/binfmt_misc/qemu-*
+- |
+  export JOB_SUITE=$(dpkg-parsechangelog | grep ^Distribution: | awk '{print $2}')
 - |
   sudo docker run --detach --interactive --tty \
     --name test_container \
     --volume ${TRAVIS_BUILD_DIR%${TRAVIS_REPO_SLUG}}:${TRAVIS_BUILD_DIR%${TRAVIS_REPO_SLUG}} \
     --workdir ${TRAVIS_BUILD_DIR} \
     --add-host dl.bintray.com:$(nslookup dl.bintray.com | grep -m1 -A1 Name: | grep Address: | awk '{print $2}') \
-    laarid/devel:${JOB_ARCH} \
+    laarid/devel:${JOB_SUITE}-${JOB_ARCH} \
     /bin/bash
 
 install:
@@ -60,29 +61,29 @@ script:
 
 before_deploy:
 - |
-  cat debian/bintray.json.in | \
-    sed -e "s#@BINTRAY_PACKAGE@#$(cat debian/control | grep ^Source: | awk '{print $2}')#g" \
+  cat .bintray.json.in | \
+    sed -e "s#@BINTRAY_PACKAGE@#$(dpkg-parsechangelog | grep ^Source: | awk '{print $2}')#g" \
         -e "s#@BINTRAY_USER@#${BINTRAY_USER}#g" \
         -e "s#@BINTRAY_REPO@#${BINTRAY_REPO}#g" \
         -e "s#@BINTRAY_DESC@#${BINTRAY_DESC}#g" \
         -e "s#@GITHUB_REPO@#${TRAVIS_REPO_SLUG}#g" \
-        -e "s#@BINTRAY_VERSION@#$(cat debian/changelog | head -n 1 | sed 's,.*(\(.*\)).*,\1,')#g" \
-        -e "s#@BINTRAY_RELEASE_DATE@#$(cat debian/changelog | grep -m 1 '^ -- ' | sed 's,^.*  ,,')#g" \
+        -e "s#@BINTRAY_VERSION@#$(dpkg-parsechangelog | grep ^Version: | awk '{print $2}')#g" \
+        -e "s#@BINTRAY_RELEASE_DATE@#$(date -Iseconds --date="$(dpkg-parsechangelog | grep ^Date: | cut -d ' ' -f 2-)")#g" \
         -e "s#@BINTRAY_OUTDIR@#$(dirname ${TRAVIS_BUILD_DIR})#g" \
-        -e "s#@BINTRAY_POOLABBR@#$(cat debian/control | grep ^Source: | awk '{print $2}' | cut -c1)#g" \
-        -e "s#@BINTRAY_SUITE@#$(${DOCKER_EXEC_NOTTY} cat /etc/apt/sources.list | grep -m 1 '^deb ' | awk '{print $3}')#g" \
+        -e "s#@BINTRAY_POOLABBR@#$(dpkg-parsechangelog | grep ^Source: | awk '{print $2}' | cut -c1)#g" \
+        -e "s#@BINTRAY_SUITE@#${JOB_SUITE}#g" \
         -e "s#@BINTRAY_COMPONENT@#${BINTRAY_COMPONENT}#g" \
         -e "s#@BINTRAY_ARCH@#${JOB_ARCH}#g" | \
-    tee debian/bintray.json
+    tee bintray.json
 
 deploy:
 - provider: bintray
-  file: debian/bintray.json
+  file: bintray.json
   user: vicamo
   key:
     secure: "TTY32DtoX2lWIZ8oFulHb+ozgfJOPeQyyXtKu3FlZpD4NPGqYOROkZYfPvGDyqvZ+iD5qXM+WQTn4rmDXh1MIm6G/RAf8atgfkKAjADc3LDT0GviPqzPvfp1YjD4/zQpdTOy8MyJo8D7kNB3t/81vwE8eMZujS2H/MKVTk+w/xgkiHq809/b3sF8CU2guDH18ZmnQ1YT5F5FMjBZKru+rrZE9+LmFpdg5a3aUhZSc9KztN+59GKiC56JWNrtPoiRWhjVS4oakivQptxAbt3Vn9NADmficdq0fNYzTJgX3C3Od0bA0hjYeAZI8YoD8GtqozAmLq83C5al20hn99WztFgMc4vNcD+qCx/N7SemHnb8y0VzqgGeB21wvSqzen4clTegfh8cjz7LY+RJFbzjyrHqk1SJQT2ps/+S3BbjV366eCVSMwtUOiw4u2WBB6WrgSN2tGvSP4Zik20djTMWIlrEPFNviN9ko9+/EWq9H8kXEnKCHCi9BR5BVD2Lfgebfya4wwpPJAam365gfJrpguw+fBH18DovrhQo7AfuNyCvLsh/sBuIMfIJG5UXeiS0dEkR7h3gnA37pkDhb/1TWvWgXvp7rPeCrzxRJZYEijYzLhtBkeHUfxI68b+rWMFz928Ce4JH93QuqllLyQGT1+tt+N2pEfpnl3dJbmZ04zc="
   on:
-    branch: release
+    tags: true
 
 notifications:
   slack:
