@@ -23,6 +23,11 @@ env:
   - BINTRAY_COMPONENT=main
   - BINTRAY_DESC="Android hardware library"
 
+matrix:
+  fast_finish: true
+  allow_failures:
+  - env: JOB_ARCH=mips64el
+
 addons:
   apt:
     packages:
